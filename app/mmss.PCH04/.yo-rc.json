@@ -1,0 +1,16 @@
+{
+  "generator-easy-ui5": {
+    "projectname": "PCH04",
+    "namespace": "mmss",
+    "platform": "Static webserver",
+    "viewtype": "XML",
+    "viewname": "App",
+    "ui5libs": "Content delivery network (SAPUI5)",
+    "newdir": true,
+    "namespaceURI": "mmss",
+    "uimodules": [
+      "uimodule"
+    ],
+    "setupCompleted": true
+  }
+}

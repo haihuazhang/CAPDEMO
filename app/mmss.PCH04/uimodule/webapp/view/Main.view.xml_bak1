@@ -1,0 +1,252 @@
+<mvc:View xmlns:smartfield="sap.ui.comp.smartfield"
+  xmlns:smartform="sap.ui.comp.smartform" controllerName="mmss.PCH04.controller.Main"
+  xmlns:core="sap.ui.core"
+  xmlns="sap.m"
+  xmlns:f="sap.f"
+  xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+  xmlns:smartTable="sap.ui.comp.smarttable"
+  xmlns:sv="sap.ui.comp.smartvariants"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:uxap="sap.uxap"
+  xmlns:table="sap.ui.table">
+  <uxap:ObjectPageLayout>
+    <uxap:headerTitle>
+      <uxap:ObjectPageHeader objectTitle="{i18n>TITLE}">
+        <uxap:actions>
+          <uxap:ObjectPageHeaderActionButton icon="sap-icon://save" text="{i18n>BUTTON_SAVE}" tooltip="{i18n>BUTTON_SAVE}" hideText="false" enabled="{localModel>/SaveEnabled}" press="onSave"/>
+        </uxap:actions>
+      </uxap:ObjectPageHeader>
+    </uxap:headerTitle>
+    <uxap:sections>
+      <uxap:ObjectPageSection title="{i18n>HEADER_SECTION}">
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection>
+            <uxap:blocks>
+              <smartform:SmartForm entityType="ReceiveHead" editable="true" id="ReceiveHeadForm">
+                <smartform:groups>
+                  <smartform:Group>
+                    <smartform:groupElements>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{PLANT_ID}" fetchValueListReadOnly="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{REH_DATE}" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{NO}" editable="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{CUID_INFO_CREATEDBY}" editable="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{CUID_INFO_CREATEDAT}" editable="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{CUID_INFO_MODIFIEDBY}" editable="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{CUID_INFO_MODIFIEDAT}" editable="false" />
+                      </smartform:GroupElement>
+                    </smartform:groupElements>
+                  </smartform:Group>
+                </smartform:groups>
+              </smartform:SmartForm>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+      <uxap:ObjectPageSection>
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection title="{i18n>RECEIVE_ITEM}">
+            <uxap:blocks>
+              <smartTable:SmartTable entitySet="ReceiveDetail" tableBindingPath="localModel>/TO_ITEMS">
+                <smartTable:customToolbar>
+                  <OverflowToolbar>
+                    <content>
+                      <ToolbarSpacer/>
+                      <Button text="{i18n>CREATEBUTTONTEXT}" press="handleItemCreatePress"/>
+                      <Button text="{i18n>DELETEBUTTONTEXT}" press="handleItemDeletePress"/>
+                    </content>
+                  </OverflowToolbar>
+                </smartTable:customToolbar>
+                <Table id="ReceiveItemTable">
+                  <columns>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"D_NO", "leadingProperty":"D_NO"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/D_NO/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"PCH_D002_ID", "leadingProperty":"PCH_D002_ID"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/PCH_D002_ID/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"MATERIAL_ID", "leadingProperty":"MATERIAL_ID"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/MATERIAL_ID/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_MATERIAL/MATERIAL_NAME", "leadingProperty":"TO_MATERIAL/MATERIAL_NAME"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/TO_MATERIAL/MATERIAL_NAME/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_MATERIAL/MATERIAL_BISMT", "leadingProperty":"TO_MATERIAL/MATERIAL_BISMT"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/TO_MATERIAL/MATERIAL_BISMT/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_POITEM/PO_D_QTY", "leadingProperty":"TO_POITEM/PO_D_QTY"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/TO_POITEM/PO_D_QTY/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"RED_QTY", "leadingProperty":"RED_QTY"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/RED_QTY/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"RED_UNIT", "leadingProperty":"RED_UNIT"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/RED_UNIT/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"PLANT_ID", "leadingProperty":"PLANT_ID"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/PLANT_ID/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_PLANT/PLANT_NAME", "leadingProperty":"TO_PLANT/PLANT_NAME"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/TO_PLANT/PLANT_NAME/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"RECE_D_LOCATION", "leadingProperty":"RECE_D_LOCATION"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/RECE_D_LOCATION/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_LOCATION/LOCATION_NAME", "leadingProperty":"TO_LOCATION/LOCATION_NAME"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/TO_LOCATION/LOCATION_NAME/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"SUPPLIER_BATCH_NO", "leadingProperty":"SUPPLIER_BATCH_NO"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/SUPPLIER_BATCH_NO/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"RED_CTN_QTY", "leadingProperty":"RED_CTN_QTY"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/RED_CTN_QTY/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_POITEM/TO_HEAD/SUPPLIER_ID", "leadingProperty":"TO_POITEM/TO_HEAD/SUPPLIER_ID"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/TO_POITEM/TO_HEAD/SUPPLIER_ID/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1", "leadingProperty":"TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"POST_INFO_POST_STATUS", "leadingProperty":"POST_INFO_POST_STATUS"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/POST_INFO_POST_STATUS/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"POST_INFO_POST_ACCOUNT_DATE", "leadingProperty":"POST_INFO_POST_ACCOUNT_DATE"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/POST_INFO_POST_ACCOUNT_DATE/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"POST_INFO_CANCEL_ACCOUNT_DATE", "leadingProperty":"POST_INFO_CANCEL_ACCOUNT_DATE"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/POST_INFO_CANCEL_ACCOUNT_DATE/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"POST_INFO_CANCEL_REASON", "leadingProperty":"POST_INFO_CANCEL_REASON"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/POST_INFO_CANCEL_REASON/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"DEV_NO", "leadingProperty":"DEV_NO"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/DEV_NO/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column demandPopin="true" minScreenWidth="3840px">
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"DEV_S_NO", "leadingProperty":"DEV_S_NO"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/DEV_S_NO/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                    <Column>
+                      <customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"REMARK", "leadingProperty":"REMARK"}'/>
+                      </customData>
+                      <Label text="{/ReceiveDetail/REMARK/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                    </Column>
+                  </columns>
+                  <!-- <items>
+                    <ColumnListItem type="Active">
+                      <cells>
+                        <smartfield:SmartField value="{D_NO}"/>
+                        <smartfield:SmartField value="{PCH_D002_ID}"/>
+                        <smartfield:SmartField value="{MATERIAL_ID}"/>
+                        <smartfield:SmartField value="{TO_MATERIAL/MATERIAL_NAME}"/>
+                        <smartfield:SmartField value="{TO_MATERIAL/MATERIAL_BISMT}"/>
+                        <smartfield:SmartField value="{TO_POITEM/PO_D_QTY}"/>
+                        <smartfield:SmartField value="{RED_QTY}"/>
+                        <smartfield:SmartField value="{RED_UNIT}"/>
+                        <smartfield:SmartField value="{PLANT_ID}"/>
+                        <smartfield:SmartField value="{TO_PLANT/PLANT_NAME}"/>
+                        <smartfield:SmartField value="{RECE_D_LOCATION}"/>
+                        <smartfield:SmartField value="{TO_LOCATION/LOCATION_NAME}"/>
+                        <smartfield:SmartField value="{SUPPLIER_BATCH_NO}"/>
+                        <smartfield:SmartField value="{RED_CTN_QTY}"/>
+                        <smartfield:SmartField value="{TO_POITEM/TO_HEAD/SUPPLIER_ID}"/>
+                        <smartfield:SmartField value="{TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1}"/>
+                        <smartfield:SmartField value="{POST_INFO_POST_STATUS}"/>
+                        <smartfield:SmartField value="{POST_INFO_POST_ACCOUNT_DATE}"/>
+                        <smartfield:SmartField value="{POST_INFO_CANCEL_ACCOUNT_DATE}"/>
+                        <smartfield:SmartField value="{POST_INFO_CANCEL_REASON}"/>
+                        <smartfield:SmartField value="{DEV_NO}"/>
+                        <smartfield:SmartField value="{DEV_S_NO}"/>
+                        <smartfield:SmartField value="{REMARK}"/>
+                      </cells>
+                    </ColumnListItem>
+                  </items> -->
+                </Table>
+              </smartTable:SmartTable>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+    </uxap:sections>
+  </uxap:ObjectPageLayout>
+
+
+</mvc:View>

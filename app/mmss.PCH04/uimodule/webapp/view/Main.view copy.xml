@@ -1,0 +1,365 @@
+<mvc:View xmlns:smartfield="sap.ui.comp.smartfield"
+  xmlns:smartform="sap.ui.comp.smartform" controllerName="mmss.PCH04.controller.Main"
+  xmlns:core="sap.ui.core"
+  xmlns="sap.m"
+  xmlns:f="sap.f"
+  xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+  xmlns:smartTable="sap.ui.comp.smarttable"
+  xmlns:sv="sap.ui.comp.smartvariants"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:uxap="sap.uxap"
+  xmlns:table="sap.ui.table"
+  xmlns:customData="sap.ui.core.CustomData">
+  <uxap:ObjectPageLayout>
+    <uxap:headerTitle>
+      <uxap:ObjectPageHeader objectTitle="{i18n>TITLE}">
+        <uxap:actions>
+          <uxap:ObjectPageHeaderActionButton icon="sap-icon://save" text="{i18n>BUTTON_SAVE}" tooltip="{i18n>BUTTON_SAVE}" hideText="false" enabled="{localModel>/SaveEnabled}" press="onSave"/>
+        </uxap:actions>
+      </uxap:ObjectPageHeader>
+    </uxap:headerTitle>
+    <uxap:sections>
+      <uxap:ObjectPageSection title="{i18n>HEADER_SECTION}">
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection>
+            <uxap:blocks>
+              <smartform:SmartForm entityType="ReceiveHead" editable="true" id="ReceiveHeadForm">
+                <smartform:groups>
+                  <smartform:Group>
+                    <smartform:groupElements>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{PLANT_ID}" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{REH_DATE}" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{NO}" editable="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{CUID_INFO_CREATEDBY}" editable="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{CUID_INFO_CREATEDAT}" editable="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{CUID_INFO_MODIFIEDBY}" editable="false" />
+                      </smartform:GroupElement>
+                      <smartform:GroupElement>
+                        <smartfield:SmartField value="{CUID_INFO_MODIFIEDAT}" editable="false" />
+                      </smartform:GroupElement>
+                    </smartform:groupElements>
+                  </smartform:Group>
+                </smartform:groups>
+              </smartform:SmartForm>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+      <uxap:ObjectPageSection>
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection title="{i18n>RECEIVE_ITEM}">
+            <uxap:blocks>
+              <smartTable:SmartTable entitySet="ReceiveDetail" enableAutoBinding="true" tableBindingPath="localModel>/TO_ITEMS" customData:useSmartField="false" customData:useSmartToggle="false">
+                <smartTable:customToolbar>
+                  <OverflowToolbar>
+                    <content>
+                      <ToolbarSpacer/>
+                      <Button text="{i18n>CREATEBUTTONTEXT}" press="handleItemCreatePress"/>
+                      <Button text="{i18n>DELETEBUTTONTEXT}" press="handleItemDeletePress"/>
+                    </content>
+                  </OverflowToolbar>
+                </smartTable:customToolbar>
+                <table:Table id="ReceiveItemTable">
+                  <table:columns>
+                    <!-- 明細番号 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="D_NO" filterProperty="D_NO">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"D_NO", "leadingProperty":"D_NO"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/D_NO/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <!-- <smartfield:SmartField value="{localModel>D_NO}"/> -->
+                        <Text text="{localModel>D_NO}"></Text>
+                      </table:template>
+                    </table:Column>
+                    <!-- PO明細 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="PCH_D002_ID" filterProperty="PCH_D002_ID">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"PCH_D002_ID", "leadingProperty":"PCH_D002_ID"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/PCH_D002_ID/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{localModel>PCH_D002_ID}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 品目 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="MATERIAL_ID" filterProperty="MATERIAL_ID">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"MATERIAL_ID", "leadingProperty":"MATERIAL_ID"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/MATERIAL_ID/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{localModel>MATERIAL_ID}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 品目テキスト -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="TO_MATERIAL/MATERIAL_NAME" filterProperty="TO_MATERIAL/MATERIAL_NAME">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_MATERIAL/MATERIAL_NAME", "leadingProperty":"TO_MATERIAL/MATERIAL_NAME"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/TO_MATERIAL/MATERIAL_NAME/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <!-- <Label text="{Zzgsaledoc}"/> -->
+                        <smartfield:SmartField value="{localModel>MATERIAL_NAME}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 旧品目 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="TO_MATERIAL/MATERIAL_BISMT" filterProperty="TO_MATERIAL/MATERIAL_BISMT">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_MATERIAL/MATERIAL_BISMT", "leadingProperty":"TO_MATERIAL/MATERIAL_BISMT"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/TO_MATERIAL/MATERIAL_BISMT/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{localModel>MATERIAL_BISMT}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 発注数量 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="TO_POITEM/PO_D_QTY" filterProperty="TO_POITEM/PO_D_QTY">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_POITEM/PO_D_QTY", "leadingProperty":"TO_POITEM/PO_D_QTY"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/TO_POITEM/PO_D_QTY/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{TO_POITEM/PO_D_QTY}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 入庫数量 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="RED_QTY" filterProperty="RED_QTY">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"RED_QTY", "leadingProperty":"RED_QTY"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/RED_QTY/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{RED_QTY}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 単位 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="RED_UNIT" filterProperty="RED_UNIT">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"RED_UNIT", "leadingProperty":"RED_UNIT"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/RED_UNIT/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{RED_UNIT}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- プラント -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="PLANT_ID" filterProperty="PLANT_ID">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"PLANT_ID", "leadingProperty":"PLANT_ID"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/PLANT_ID/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{PLANT_ID}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- プラントName -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="TO_PLANT/PLANT_NAME" filterProperty="TO_PLANT/PLANT_NAME">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_PLANT/PLANT_NAME", "leadingProperty":"TO_PLANT/PLANT_NAME"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/TO_PLANT/PLANT_NAME/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{TO_PLANT/PLANT_NAME}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 保管場所 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="RECE_D_LOCATION" filterProperty="RECE_D_LOCATION">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"RECE_D_LOCATION", "leadingProperty":"RECE_D_LOCATION"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/RECE_D_LOCATION/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{RECE_D_LOCATION}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 保管場所名 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="TO_LOCATION/LOCATION_NAME" filterProperty="TO_LOCATION/LOCATION_NAME">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_LOCATION/LOCATION_NAME", "leadingProperty":"TO_LOCATION/LOCATION_NAME"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/TO_LOCATION/LOCATION_NAME/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{TO_LOCATION/LOCATION_NAME}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 仕入先ロット番号 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="SUPPLIER_BATCH_NO" filterProperty="SUPPLIER_BATCH_NO">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"SUPPLIER_BATCH_NO", "leadingProperty":"SUPPLIER_BATCH_NO"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/SUPPLIER_BATCH_NO/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{SUPPLIER_BATCH_NO}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 梱包数 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="RED_CTN_QTY" filterProperty="RED_CTN_QTY">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"RED_CTN_QTY", "leadingProperty":"RED_CTN_QTY"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/RED_CTN_QTY/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{RED_CTN_QTY}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 仕入先 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="TO_POITEM/TO_HEAD/SUPPLIER_ID" filterProperty="TO_POITEM/TO_HEAD/SUPPLIER_ID">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_POITEM/TO_HEAD/SUPPLIER_ID", "leadingProperty":"TO_POITEM/TO_HEAD/SUPPLIER_ID"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/TO_POITEM/TO_HEAD/SUPPLIER_ID/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{TO_POITEM/TO_HEAD/SUPPLIER_ID}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 仕入先名 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1" filterProperty="TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1", "leadingProperty":"TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{TO_POITEM/TO_HEAD/TO_SUPPLIER/SUPPLIER_NAME1}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- ステータス -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="POST_INFO_POST_STATUS" filterProperty="POST_INFO_POST_STATUS">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"POST_INFO_POST_STATUS", "leadingProperty":"POST_INFO_POST_STATUS"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/POST_INFO_POST_STATUS/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{POST_INFO_POST_STATUS}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 転記日 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="POST_INFO_POST_ACCOUNT_DATE" filterProperty="POST_INFO_POST_ACCOUNT_DATE">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"POST_INFO_POST_ACCOUNT_DATE", "leadingProperty":"POST_INFO_POST_ACCOUNT_DATE"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/POST_INFO_POST_ACCOUNT_DATE/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{POST_INFO_POST_ACCOUNT_DATE}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 転記取消日 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="POST_INFO_CANCEL_ACCOUNT_DATE" filterProperty="POST_INFO_CANCEL_ACCOUNT_DATE">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"POST_INFO_CANCEL_ACCOUNT_DATE", "leadingProperty":"POST_INFO_CANCEL_ACCOUNT_DATE"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/POST_INFO_CANCEL_ACCOUNT_DATE/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{POST_INFO_CANCEL_ACCOUNT_DATE}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 転記取消理由 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="POST_INFO_CANCEL_REASON" filterProperty="POST_INFO_CANCEL_REASON">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"POST_INFO_CANCEL_REASON", "leadingProperty":"POST_INFO_CANCEL_REASON"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/POST_INFO_CANCEL_REASON/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{POST_INFO_CANCEL_REASON}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 納入番号 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="DEV_NO" filterProperty="DEV_NO">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"DEV_NO", "leadingProperty":"DEV_NO"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/DEV_NO/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{DEV_NO}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 行番号 -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="DEV_S_NO" filterProperty="DEV_S_NO">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"DEV_S_NO", "leadingProperty":"DEV_S_NO"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/DEV_S_NO/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{DEV_S_NO}"/>
+                      </table:template>
+                    </table:Column>
+                    <!-- 便情報 -->
+                    <!-- コメント -->
+                    <table:Column visible="true" autoResizable="true" sortProperty="REMARK" filterProperty="REMARK">
+                      <table:customData>
+                        <core:CustomData key="p13nData" value='\{"columnKey":"REMARK", "leadingProperty":"REMARK"}'/>
+                      </table:customData>
+                      <table:label>
+                        <Label text="{/ReceiveDetail/REMARK/##com.sap.vocabularies.Common.v1.Label/String}"/>
+                      </table:label>
+                      <table:template>
+                        <smartfield:SmartField value="{REMARK}"/>
+                      </table:template>
+                    </table:Column>
+                  </table:columns>
+                </table:Table>
+              </smartTable:SmartTable>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+    </uxap:sections>
+  </uxap:ObjectPageLayout>
+
+
+</mvc:View>

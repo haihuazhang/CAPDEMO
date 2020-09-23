@@ -1,0 +1,18 @@
+{
+  "name": "v2proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./srv/index.js",
+    "debug": "node ./srv/index.js --inspect-brk=9229"
+  },
+  "dependencies": {
+    "@sap/cds": "^3.34.2",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.4.42",
+    "@sap/hana-client": "^2.5.101"
+  },
+  "author": "",
+  "license": "ISC"
+}
